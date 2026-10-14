@@ -13,11 +13,12 @@
         <ul class="navbar-nav me-auto mb-2 md:mb-0">
         </ul>
         <span class="navbar-text">
-            Hi: User
+          Hello: <strong><?php echo htmlspecialchars($_SESSION["username"]); ?></strong>
         </span>
-        <button type="button" class="btn-solid theme-secondary btn-sm">
-            Logout
-        </button>
+
+        <a href="../../src/App/Services/logout_service.php" class="btn-solid theme-secondary btn-sm">
+          Logout
+        </a>
       </div>
     </dialog>
   </div>
