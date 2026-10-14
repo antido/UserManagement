@@ -5,18 +5,18 @@ namespace App\Controllers;
 require_once __DIR__ . '/../../../vendor/autoloader.php';
 
 use App\Models\Auth;
+use PDOStatement;
 
 class LoginController extends Auth {
 
-	public function login()
-	{
-		
-	}
+	public string $username;
 
-    public function signUp()
-	{
-		
-	}
+    public function getUserData(): PDOStatement
+    {
+        $data = $this->getData($this->username);
+
+		return $data;
+    }
 }
 
 ?>

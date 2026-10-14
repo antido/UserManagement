@@ -7,7 +7,27 @@
 	<div class="container-fluid my-5">
 		<div class="row justify-content-center">
 			<div class="col-md-10">
-				<a href="create.php" class="btn-solid theme-success my-2 btn-md float-end" title="Add User"><i class="fas fa-plus"></i> Add User</a>
+				<div class="d-flex">
+					<div class="p-2 flex-fill">
+						<form action="" method="" class="d-flex align-items-center gap-2">
+							<span>Search:</span>
+							<input type="text" class="form-control" id="search" name="search">
+						</form>
+					</div>
+					<div class="p-2 flex-fill">
+						<button type="submit" class="btn-solid theme-inverse" name="add">
+							Search
+						</button>
+
+						<button type="button" class="btn-solid theme-inverse" id="resetBtn">
+							Clear Search
+                    	</button>
+					</div>
+					<div class="p-2 flex-fill">
+						<a href="create.php" class="btn-solid theme-success my-2 btn-md float-end" title="Add User"><i class="fas fa-plus"></i> Add User</a>
+					</div>
+				</div>
+				
 				<table class="table table-striped table-bordered">
 					<thead class="thead-dark">
 						<tr>
@@ -61,7 +81,7 @@
 									</a>
 									<a 
 										href="index.php?del=1&id=<?php echo $row['id']; ?>" 
-										onclick="return confirm('Are you sure youn want to delete this user?');" 
+										onclick="return confirm('Are you sure you want to delete this user?');" 
 										class="btn btn-md btn-danger" 
 										title="Delete"
 									>
@@ -74,7 +94,7 @@
 							} else {
 						?>
 							<tr>
-								<td colspan="6">
+								<td colspan="8">
 									<p class="text-center fg-secondary">No Data Found!</p>
 								</td>
 							</tr>

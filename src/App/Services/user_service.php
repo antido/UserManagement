@@ -1,4 +1,13 @@
 <?php
+	// Initialize session
+	session_start();
+
+	// Check if the user session variable is set
+	if (!isset($_SESSION['user_id'])) {
+		header("Location: ../../index.php");
+		exit();
+	}
+
     include '../../src/App/Controllers/UserController.php';
 	
 	use App\Controllers\UserController;
@@ -8,21 +17,21 @@
     // Add User
 	if (isset($_POST['add'])) {
 		$data = array(
-			'username' 		=> $_POST['username'] ?? '',
-			'email_address' => $_POST['email_address'] ?? '',
-			'first_name' 	=> $_POST['first_name'] ?? '',
-			'last_name' 	=> $_POST['last_name'] ?? '',
-			'middle_name' 	=> $_POST['middle_name'] ?? '',
-			'address' 		=> $_POST['address'] ?? '',
-			'company' 		=> $_POST['company'] ?? '',
-			'contact_no' 	=> $_POST['contact_no'] ?? '',
-			'position' 		=> $_POST['position'] ?? '',
-			'status' 		=> $_POST['status'] ?? 'Active'
+			'username' 		=> trim($_POST['username']) ?? '',
+			'email_address' => trim($_POST['email_address']) ?? '',
+			'first_name' 	=> trim($_POST['first_name']) ?? '',
+			'last_name' 	=> trim($_POST['last_name']) ?? '',
+			'middle_name' 	=> trim($_POST['middle_name']) ?? '',
+			'address' 		=> trim($_POST['address']) ?? '',
+			'company' 		=> trim($_POST['company']) ?? '',
+			'contact_no' 	=> trim($_POST['contact_no']) ?? '',
+			'position' 		=> trim($_POST['position']) ?? '',
+			'status' 		=> trim($_POST['status']) ?? 'Active'
 		);
 
-		if (!empty($_POST['password'])) {
+		if (!empty(trim($_POST['password']))) {
 			$data['password'] = password_hash(
-				$_POST['password'],
+				trim($_POST['password']),
 				PASSWORD_DEFAULT
 			);
 		}
@@ -46,21 +55,21 @@
 	) {
 		$id = $_POST['id'];
 		$data = [
-			'username'      => $_POST['username'] ?? '',
-			'email_address' => $_POST['email_address'] ?? '',
-			'first_name'    => $_POST['first_name'] ?? '',
-			'last_name'     => $_POST['last_name'] ?? '',
-			'middle_name'   => $_POST['middle_name'] ?? '',
-			'address'       => $_POST['address'] ?? '',
-			'company'       => $_POST['company'] ?? '',
-			'contact_no'    => $_POST['contact_no'] ?? '',
-			'position'      => $_POST['position'] ?? '',
-			'status'        => $_POST['status'] ?? 'Active',
+			'username'      => trim($_POST['username']) ?? '',
+			'email_address' => trim($_POST['email_address']) ?? '',
+			'first_name'    => trim($_POST['first_name']) ?? '',
+			'last_name'     => trim($_POST['last_name']) ?? '',
+			'middle_name'   => trim($_POST['middle_name']) ?? '',
+			'address'       => trim($_POST['address']) ?? '',
+			'company'       => trim($_POST['company']) ?? '',
+			'contact_no'    => trim($_POST['contact_no']) ?? '',
+			'position'      => trim($_POST['position']) ?? '',
+			'status'        => trim($_POST['status']) ?? 'Active',
 		];
 
-		if (!empty($_POST['password'])) {
+		if (!empty(trim($_POST['password']))) {
 			$data['password'] = password_hash(
-				$_POST['password'],
+				trim($_POST['password']),
 				PASSWORD_DEFAULT
 			);
 		}

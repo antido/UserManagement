@@ -3,15 +3,16 @@
 class Database {
 
 	public PDO $conn;
+	private string $host = "";
+	private string $database = "";
+	private string $charset = "";
+	private string $user = "";
+	private string $pass = "";
 
 	public function __construct()
 	{
 		try {
-			$this->conn = new PDO(
-				"mysql:host=127.0.0.1;port=21000;dbname=user_management;charset=utf8mb4",
-				"root",
-				"antido@2024;"
-			);
+			$this->conn = new PDO('mysql:host='.$this->host.';dbname='.$this->database.';charset='.$this->charset, $this->user, $this->pass);
 
 			$this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 			$this->conn->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
