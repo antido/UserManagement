@@ -10,11 +10,22 @@ use PDO;
 
 class User extends Database {
 
-	public function getData()
+	public function getData(string $search): array
 	{
 		$sql = "SELECT * FROM users";
 
+		if (!empty(trim($search))) {
+			$sql .= " WHERE username LIKE :search
+					OR first_name LIKE :search
+					OR last_name LIKE :search";
+		}
+
 		$stmt = $this->conn->prepare($sql);
+
+		if (!empty(trim($search))) {
+			$stmt->bindValue(':search', '%' . trim($search) . '%', PDO::PARAM_STR);
+		}
+
 		$stmt->execute();
 
 		return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -103,11 +114,14 @@ class User extends Database {
 			return '';
 		}
 
-		return implode(' ', array_filter([
-			$row['first_name'],
-			$row['middle_name'],
-			$row['last_name'],
-		], fn($name) => trim($name ?? '') !== ''));
+		$lastName = trim($row['last_name'] ?? '');
+
+		$otherNames = array_filter([
+			trim($row['first_name'] ?? ''),
+			trim($row['middle_name'] ?? ''),
+		]);
+
+		return $lastName . (!empty($otherNames) ? ', ' . implode(' ', $otherNames) : '');
 	}
 }
 
