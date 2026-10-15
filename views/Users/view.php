@@ -1,5 +1,5 @@
 <?php 
-	include_once "../../src/App/Services/user_service.php";
+	include_once __DIR__ . "/../../src/App/Services/user_service.php";
 ?>
 
 <?php include '../includes/header.php'; ?>
