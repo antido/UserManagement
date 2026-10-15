@@ -1,8 +1,8 @@
 <?php 
 	include_once __DIR__ . "/../../src/App/Services/user_service.php";
+	include "../includes/header.php";
+	include "../includes/nav.php";
 ?>
-
-<?php include '../includes/header.php'; ?>
 
 	<div class="container my-5">
 
@@ -75,4 +75,4 @@
 		</div>
 	</div>
 
-<?php include '../includes/footer.php'; ?>
+<?php include "../includes/footer.php"; ?>

@@ -45,6 +45,7 @@
                     // Session variables
                     $_SESSION["loggedin"] = true;
                     $_SESSION["user_id"] = $row["id"];
+                    $_SESSION["role_id"] = $row["role_id"] ?? 0;
                     $_SESSION["username"] = $username;
                     
                     header("location: views/Users/index.php");

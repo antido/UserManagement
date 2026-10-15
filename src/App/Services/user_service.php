@@ -9,10 +9,13 @@
 	}
 
     include '../../src/App/Controllers/UserController.php';
-	
+	include '../../src/App/Helpers/helper.php';
+
 	use App\Controllers\UserController;
+	use App\Controllers\RolePermissionController;
 
 	$user = new UserController;
+	$rolePermission = new RolePermissionController;
 
 	## SEARCH AND PAGINATION BLOCK ##
 	// Get search keyword
@@ -39,15 +42,6 @@
     // Calculate offset and get current page records
     $offset = ($currentPage - 1) * $perPage;
     $paginatedData = array_slice($data, $offset, $perPage);
-
-    // Function for pagination URLs
-    function paginationUrl(int $page, string $search): string
-    {
-        return '?' . http_build_query([
-            'page' => $page,
-            'search' => $search
-        ]);
-    }
 	## END SEARCH AND PAGINATION BLOCK ##
 
 	## CRUD FUNTIONALITY BLOCK ##

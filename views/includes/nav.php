@@ -11,6 +11,17 @@
       </div>
       <div class="drawer-body">
         <ul class="navbar-nav me-auto mb-2 md:mb-0">
+          <?php if (hasPermission('index_role', $rolePermission)): ?>
+          <li class="nav-item">
+            <a class="nav-link" href="../Roles/index.php">Roles</a>
+          </li>
+          <?php endif; ?>
+
+          <?php if (hasPermission('index_permission', $rolePermission)): ?>
+          <li class="nav-item">
+            <a class="nav-link" href="../Permissions/index.php">Permissions</a>
+          </li>
+          <?php endif; ?>
         </ul>
         <span class="navbar-text">
           Hello: <strong><?php echo htmlspecialchars($_SESSION["username"]); ?></strong>

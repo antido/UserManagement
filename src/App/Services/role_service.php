@@ -1,0 +1,97 @@
+<?php
+    // Initialize session
+	session_start();
+
+	// Check if the user session variable is set
+	if (!isset($_SESSION['user_id'])) {
+		header("Location: ../../index.php");
+		exit();
+	}
+
+    include '../../src/App/Controllers/RoleController.php';
+	include '../../src/App/Helpers/helper.php';
+	
+	use App\Controllers\RoleController;
+	use App\Controllers\RolePermissionController;
+
+	$role = new RoleController;
+	$rolePermission = new RolePermissionController;
+
+	## SEARCH AND PAGINATION BLOCK ##
+	// Get search keyword
+    $search = trim($_GET['search'] ?? '');
+
+    // Pagination settings
+    $perPage = 5;
+    $currentPage = isset($_GET['page']) ? (int) $_GET['page'] : 1;
+    $currentPage = max(1, $currentPage);
+
+    // Get all roles
+    $data = $role->getAllData($search);
+    $data = is_array($data) ? $data : [];
+
+    // Calculate pagination
+    $totalRecords = count($data);
+    $totalPages = (int) ceil($totalRecords / $perPage);
+
+    // Prevent requesting a page beyond the available pages
+    if ($totalPages > 0 && $currentPage > $totalPages) {
+        $currentPage = $totalPages;
+    }
+
+    // Calculate offset and get current page records
+    $offset = ($currentPage - 1) * $perPage;
+    $paginatedData = array_slice($data, $offset, $perPage);
+	## END SEARCH AND PAGINATION BLOCK ##
+
+	## CRUD FUNTIONALITY BLOCK ##
+    // Add Role
+	if (isset($_POST['add'])) {
+		$data = array(
+			'name' => trim($_POST['role_name']) ?? ''
+		);
+
+		if ($role->insertData($data)) {
+			header('Location: index.php?store="Success"');
+		}
+	}
+
+    // Edit Role
+    if (isset($_GET['update'])) {
+		$id = $_GET['id'] ?? null;
+
+		$data = $role->selectData($id);
+	}
+
+	if (
+		isset($_POST['edit']) && 
+		$_SERVER['REQUEST_METHOD'] === 'POST' &&
+    	($_POST['_method'] ?? '') === 'PUT'
+	) {
+		$id = $_POST['id'];
+		$data = [
+			'name' => trim($_POST['role_name']) ?? ''
+		];
+
+		if ($role->editData($id, $data)) {
+			header('Location: index.php?edit=Success');
+		}
+	}
+
+    // View Role
+    if (isset($_GET['view'])) {
+		$id = $_GET['id'] ?? null;
+
+		$data = $role->selectData($id);
+	}
+
+    // Delete Role
+    if (isset($_GET['del'])) {
+		$id = $_GET['id'] ?? null;
+
+		if ($role->deleteData($id)) {
+			header('Location: index.php?delete=Success');
+		}
+	}
+	## END CRUD FUNTIONALITY BLOCK ##
+?>
