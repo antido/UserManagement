@@ -1,8 +1,8 @@
-<?php
-    include_once __DIR__ . "/../../src/App/Services/user_service.php";
+<?php 
+	include_once __DIR__ . "/../../src/App/Services/user_service.php";
+	include "../includes/header.php";
+	include "../includes/nav.php";
 ?>
-
-<?php include '../includes/header.php'; ?>
 
 	<div class="container-fluid my-5">
 		<div class="row justify-content-center">
@@ -24,7 +24,13 @@
 					</div>
 					
 					<div class="p-2 flex-fill">
-						<a href="create.php" class="btn-solid theme-success my-2 btn-md float-end" title="Add User"><i class="fas fa-plus"></i> Add User</a>
+						<a href="create.php" 
+							class="btn-solid theme-success my-2 btn-md float-end 
+							<?php echo (!hasPermission('create_user', $rolePermission)) ? "disabled" : ""; ?>" 
+							title="Add User"
+						>
+							<i class="fas fa-plus"></i> Add User
+						</a>
 					</div>
 				</div>
 
@@ -72,7 +78,8 @@
 											</a>
 											<a
 												href="edit.php?update=1&id=<?php echo urlencode($row['id']); ?>"
-												class="btn-solid btn-sm theme-primary"
+												class="btn-solid btn-sm theme-primary
+												<?php echo (!hasPermission('edit_user', $rolePermission)) ? "disabled" : ""; ?>" 
 												title="Edit"
 											>
 												<i class="fas fa-pencil-alt"></i>
@@ -82,7 +89,8 @@
 												onclick="return confirm(
 													'Are you sure you want to delete this user?'
 												);"
-												class="btn-solid btn-sm theme-danger"
+												class="btn-solid btn-sm theme-danger
+												<?php echo (!hasPermission('delete_user', $rolePermission)) ? "disabled" : ""; ?>" 
 												title="Delete"
 											>
 												<i class="fas fa-trash-alt"></i>
@@ -171,4 +179,4 @@
 		</div>
 	</div>
 
-<?php include '../includes/footer.php'; ?>
+<?php include "../includes/footer.php"; ?>

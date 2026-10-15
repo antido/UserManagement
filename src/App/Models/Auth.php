@@ -10,7 +10,9 @@ class Auth extends Database {
 
     public function getData(string $username): PDOStatement
     {
-        $query = "SELECT * FROM users WHERE username = :username";
+        $query = "SELECT users.*, user_roles.role_id FROM users 
+                LEFT JOIN user_roles ON users.id = user_roles.user_id
+                WHERE username = :username";
         
         $stmt = $this->conn->prepare($query);
         $stmt->execute(['username' => $username]);
