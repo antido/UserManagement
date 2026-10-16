@@ -13,11 +13,15 @@
 	include "../../src/App/Validators/UserValidation.php";
 
 	use App\Controllers\UserController;
+	use App\Controllers\RoleController;
 	use App\Controllers\RolePermissionController;
+	use App\Controllers\UserRoleController;
 	use App\Validators\UserValidation;
 
 	$user = new UserController;
+	$role = new RoleController;
 	$rolePermission = new RolePermissionController;
+	$userRole = new UserRoleController;
 	$validator = new UserValidation;
 
 	## SEARCH AND PAGINATION BLOCK ##
@@ -82,7 +86,7 @@
 
     // Edit User
     if (isset($_GET['update'])) {
-		$id = $_GET['id'] ?? null;
+		$id = $_GET['id'] ?? 0;
 
 		$data = $user->selectData($id);
 	}
@@ -126,18 +130,36 @@
 
     // View User
     if (isset($_GET['view'])) {
-		$id = $_GET['id'] ?? null;
+		$id = $_GET['id'] ?? 0;
 
 		$data = $user->selectData($id);
 	}
 
     // Delete User
     if (isset($_GET['del'])) {
-		$id = $_GET['id'] ?? null;
+		$id = $_GET['id'] ?? 0;
 
 		if ($user->deleteData($id)) {
 			header('Location: index.php?delete=Success');
 		}
 	}
+
+	// Assign User Role
+	if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['assign_role'])) {
+        $id = $_POST['user_id'] ?? 0;
+		$roleId = trim($_POST['role_id'] ?? 0);
+
+        if ($userRole->assignData($id, $roleId)) {
+            header('Location: index.php?store="Success"');
+        }
+    }
+
+	// Get Saved User Role
+	if (isset($_GET['id'])) {
+		$savedRole = $userRole->getData($_GET['id'] ?? 0);
+	}
+
+	// Get All Roles
+    $roles = $role->getAllData();
 	## END CRUD FUNTIONALITY BLOCK ##
 ?>

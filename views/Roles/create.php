@@ -18,7 +18,7 @@
 
 		<div class="row justify-content-center">
 			<div class="col-6 border rounded">
-				<h4 class="text-center fg-success my-5">
+				<h4 class="text-center fg-secondary my-5">
 					<i class="fas fa-users"></i> Add Role
 				</h4>
 

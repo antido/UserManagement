@@ -14,6 +14,20 @@ class RolePermissionController extends RolePermission {
 
 		return $data;
 	}
+
+	public function insertData(int $roleId, array $data): bool
+	{
+		$this->store($roleId, $data);
+
+		return true;
+	}
+
+	public function getData(int $roleId): array
+	{
+		$data = $this->getRolePermissions($roleId);
+
+		return $data;
+	}
 }
 
 ?>

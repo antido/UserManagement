@@ -8,7 +8,7 @@ use App\Models\User;
 
 class UserController extends User {
 
-	public function getAllData(string $search): array
+	public function getAllData(string $search = ''): array
 	{
 		$data = $this->getData($search);
 
