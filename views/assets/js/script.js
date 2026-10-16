@@ -1,5 +1,5 @@
-// Reset Form Fields
 $(document).ready( function () {
+    // Reset Form Fields
     $('#resetBtn').on('click', function () {
         const form = $(this).closest('form');
 
@@ -13,5 +13,14 @@ $(document).ready( function () {
                 input.val('');
             }
         });
+    });
+
+    // Confirmation on update
+    $('#editForm').on('submit', function (e) {
+        const confirmed = confirm('Are you sure you want to update this item?');
+
+        if (!confirmed) {
+            e.preventDefault();
+        }
     });
 });

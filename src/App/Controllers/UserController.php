@@ -49,6 +49,13 @@ class UserController extends User {
 
 		return $data;
 	}
+
+	public function checkData(string $type, string $value, int $id = 0): bool
+	{
+		$data = $this->checkIfExist($type, $value, $id);
+
+		return $data;
+	}
 }
 
 ?>

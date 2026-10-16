@@ -9,25 +9,25 @@
     session_start();
 
     // Define empty variables
-    $username = $user_password = "";
-    $username_error = $password_error = "";
+    $username = $userPassword = "";
+    $usernameError = $passwordError = "";
 
     if ($_POST) {
         // Check if username is empty
         if (empty(trim($_POST["username"]))) {
-            $username_error = "<span style='color: red'>Please enter your username.</span>";
+            $usernameError = "Please enter your username.";
         } else {
             $username = trim($_POST["username"]);
         }
 
         // Check if password is empty
         if (empty(trim($_POST["password"]))) {
-            $password_error = "<span style='color: red'>Please enter your password.</span>";
+            $passwordError = "Please enter your password.";
         } else {
-            $user_password = trim($_POST["password"]);
+            $userPassword = trim($_POST["password"]);
         }
         
-        if (empty($username_error) && empty($password_error)) {
+        if (empty($usernameError) && empty($passwordError)) {
             $login->username = $username;
             $stmt = $login->getUserData();
 
@@ -37,23 +37,28 @@
                 extract($row);
 
                 // Verify password
-                $verify = password_verify($user_password, $row["password"]);
+                $verify = password_verify($userPassword, $row["password"]);
 
-                if ($verify) {
-                    session_regenerate_id(true);
-
-                    // Session variables
-                    $_SESSION["loggedin"] = true;
-                    $_SESSION["user_id"] = $row["id"];
-                    $_SESSION["role_id"] = $row["role_id"] ?? 0;
-                    $_SESSION["username"] = $username;
-                    
-                    header("location: views/Users/index.php");
+                $checkActive = $login->checkIfActive();
+                if (!$checkActive) {
+                    $usernameError = "Your account is inactive.";
                 } else {
-                    $password_error  = "<span style='color: red'>Invalid username or password.</span>";
-                }   
+                    if ($verify) {
+                        session_regenerate_id(true);
+
+                        // Session variables
+                        $_SESSION["loggedin"] = true;
+                        $_SESSION["user_id"] = $row["id"];
+                        $_SESSION["role_id"] = $row["role_id"] ?? 0;
+                        $_SESSION["username"] = $username;
+                        
+                        header("location: views/Users/index.php");
+                    } else {
+                        $passwordError  = "Invalid username or password.";
+                    }   
+                }
             } else {
-                $username_error  = "<span style='color: red'>Invalid username or password.</span>";
+                $usernameError  = "Invalid username or password.";
             }          
         }
     }

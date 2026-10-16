@@ -42,6 +42,13 @@ class RoleController extends Role {
 		
 		return true;
 	}
+
+	public function checkData(string $value, int $id = 0): bool
+	{
+		$data = $this->checkIfExist($value, $id);
+
+		return $data;
+	}
 }
 
 ?>

@@ -1,12 +1,13 @@
 <?php 
 	include_once __DIR__ . "/../../src/App/Services/permission_service.php";
-	include "../includes/header.php";
-	include "../includes/nav.php";
 
 	if (!hasPermission('create_permission', $rolePermission)) {
 		header("Location: ../unauthorized.php");
 		exit();
 	}
+
+	include "../includes/header.php";
+	include "../includes/nav.php";
 ?>
 
 	<div class="container my-5">
@@ -23,7 +24,8 @@
 
 					<div class="mb-3">
                         <label for="permission_name" class="form-label">Name</label>
-                        <input type="text" class="form-control" id="permission_name" name="permission_name" placeholder="Permission">
+                        <input type="text" class="form-control" id="permission_name" name="permission_name" value="<?php echo htmlspecialchars(oldValue('permission_name')); ?>" placeholder="Permission">
+						<small class="fg-danger"><?php echo htmlspecialchars($errors['permission_name'] ?? ''); ?></small> 
                     </div>
 
 					<div class="my-5">

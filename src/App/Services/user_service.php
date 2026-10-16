@@ -8,14 +8,17 @@
 		exit();
 	}
 
-    include '../../src/App/Controllers/UserController.php';
-	include '../../src/App/Helpers/helper.php';
+    include "../../src/App/Controllers/UserController.php";
+	include "../../src/App/Helpers/helper.php";
+	include "../../src/App/Validators/UserValidation.php";
 
 	use App\Controllers\UserController;
 	use App\Controllers\RolePermissionController;
+	use App\Validators\UserValidation;
 
 	$user = new UserController;
 	$rolePermission = new RolePermissionController;
+	$validator = new UserValidation;
 
 	## SEARCH AND PAGINATION BLOCK ##
 	// Get search keyword
@@ -47,28 +50,33 @@
 	## CRUD FUNTIONALITY BLOCK ##
     // Add User
 	if (isset($_POST['add'])) {
-		$data = array(
-			'username' 		=> trim($_POST['username']) ?? '',
-			'email_address' => trim($_POST['email_address']) ?? '',
-			'first_name' 	=> trim($_POST['first_name']) ?? '',
-			'last_name' 	=> trim($_POST['last_name']) ?? '',
-			'middle_name' 	=> trim($_POST['middle_name']) ?? '',
-			'address' 		=> trim($_POST['address']) ?? '',
-			'company' 		=> trim($_POST['company']) ?? '',
-			'contact_no' 	=> trim($_POST['contact_no']) ?? '',
-			'position' 		=> trim($_POST['position']) ?? '',
-			'status' 		=> trim($_POST['status']) ?? 'Active'
-		);
+		// For validation
+		$errors = $validator->validate($_POST, $user);
 
-		if (!empty(trim($_POST['password']))) {
-			$data['password'] = password_hash(
-				trim($_POST['password']),
-				PASSWORD_DEFAULT
+		if (empty(array_filter($errors))) {
+			$data = array(
+				'username' 		=> trim($_POST['username']) ?? '',
+				'email_address' => trim($_POST['email_address']) ?? '',
+				'first_name' 	=> trim($_POST['first_name']) ?? '',
+				'last_name' 	=> trim($_POST['last_name']) ?? '',
+				'middle_name' 	=> trim($_POST['middle_name']) ?? '',
+				'address' 		=> trim($_POST['address']) ?? '',
+				'company' 		=> trim($_POST['company']) ?? '',
+				'contact_no' 	=> trim($_POST['contact_no']) ?? '',
+				'position' 		=> trim($_POST['position']) ?? '',
+				'status' 		=> trim($_POST['status']) ?? 'Active'
 			);
-		}
 
-		if ($user->insertData($data)) {
-			header('Location: index.php?store="Success"');
+			if (!empty(trim($_POST['password']))) {
+				$data['password'] = password_hash(
+					trim($_POST['password']),
+					PASSWORD_DEFAULT
+				);
+			}
+
+			if ($user->insertData($data)) {
+				header('Location: index.php?store="Success"');
+			}
 		}
 	}
 
@@ -84,29 +92,35 @@
 		$_SERVER['REQUEST_METHOD'] === 'POST' &&
     	($_POST['_method'] ?? '') === 'PUT'
 	) {
-		$id = $_POST['id'];
-		$data = [
-			'username'      => trim($_POST['username']) ?? '',
-			'email_address' => trim($_POST['email_address']) ?? '',
-			'first_name'    => trim($_POST['first_name']) ?? '',
-			'last_name'     => trim($_POST['last_name']) ?? '',
-			'middle_name'   => trim($_POST['middle_name']) ?? '',
-			'address'       => trim($_POST['address']) ?? '',
-			'company'       => trim($_POST['company']) ?? '',
-			'contact_no'    => trim($_POST['contact_no']) ?? '',
-			'position'      => trim($_POST['position']) ?? '',
-			'status'        => trim($_POST['status']) ?? 'Active',
-		];
+		$id = $_POST['id'] ?? 0;
 
-		if (!empty(trim($_POST['password']))) {
-			$data['password'] = password_hash(
-				trim($_POST['password']),
-				PASSWORD_DEFAULT
-			);
-		}
+		// For validation
+		$errors = $validator->validate($_POST, $user, 'edit', $id);
 
-		if ($user->editData($id, $data)) {
-			header('Location: index.php?edit=Success');
+		if (empty(array_filter($errors))) {
+			$data = [
+				'username'      => trim($_POST['username']) ?? '',
+				'email_address' => trim($_POST['email_address']) ?? '',
+				'first_name'    => trim($_POST['first_name']) ?? '',
+				'last_name'     => trim($_POST['last_name']) ?? '',
+				'middle_name'   => trim($_POST['middle_name']) ?? '',
+				'address'       => trim($_POST['address']) ?? '',
+				'company'       => trim($_POST['company']) ?? '',
+				'contact_no'    => trim($_POST['contact_no']) ?? '',
+				'position'      => trim($_POST['position']) ?? '',
+				'status'        => trim($_POST['status']) ?? 'Active',
+			];
+
+			if (!empty(trim($_POST['password']))) {
+				$data['password'] = password_hash(
+					trim($_POST['password']),
+					PASSWORD_DEFAULT
+				);
+			}
+
+			if ($user->editData($id, $data)) {
+				header('Location: index.php?edit=Success');
+			}
 		}
 	}
 
