@@ -8,14 +8,17 @@
 		exit();
 	}
 
-    include '../../src/App/Controllers/RoleController.php';
-	include '../../src/App/Helpers/helper.php';
+    include "../../src/App/Controllers/RoleController.php";
+	include "../../src/App/Helpers/helper.php";
+	include "../../src/App/Validators/RoleValidation.php";
 	
 	use App\Controllers\RoleController;
 	use App\Controllers\RolePermissionController;
+	use App\Validators\RoleValidation;
 
 	$role = new RoleController;
 	$rolePermission = new RolePermissionController;
+	$validator = new RoleValidation;
 
 	## SEARCH AND PAGINATION BLOCK ##
 	// Get search keyword
@@ -47,12 +50,17 @@
 	## CRUD FUNTIONALITY BLOCK ##
     // Add Role
 	if (isset($_POST['add'])) {
-		$data = array(
-			'name' => trim($_POST['role_name']) ?? ''
-		);
+		// For validation
+		$errors = $validator->validate($_POST, $role);
 
-		if ($role->insertData($data)) {
-			header('Location: index.php?store="Success"');
+		if (empty(array_filter($errors))) {
+			$data = array(
+				'name' => trim($_POST['role_name']) ?? ''
+			);
+
+			if ($role->insertData($data)) {
+				header('Location: index.php?store="Success"');
+			}
 		}
 	}
 
@@ -68,14 +76,21 @@
 		$_SERVER['REQUEST_METHOD'] === 'POST' &&
     	($_POST['_method'] ?? '') === 'PUT'
 	) {
-		$id = $_POST['id'];
-		$data = [
-			'name' => trim($_POST['role_name']) ?? ''
-		];
+		$id = $_POST['id'] ?? 0;
 
-		if ($role->editData($id, $data)) {
-			header('Location: index.php?edit=Success');
+		// For validation
+		$errors = $validator->validate($_POST, $role, 'edit', $id);
+
+		if (empty(array_filter($errors))) {	
+			$data = [
+				'name' => trim($_POST['role_name']) ?? ''
+			];
+
+			if ($role->editData($id, $data)) {
+				header('Location: index.php?edit=Success');
+			}
 		}
+		
 	}
 
     // View Role

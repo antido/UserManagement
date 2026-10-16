@@ -98,6 +98,16 @@ class Permission extends Database {
 			return false;
 		}
 	}
+
+	public function checkIfExist(string $value, int $id): bool
+	{
+		$sql = "SELECT COUNT(*) FROM permissions WHERE name = :permission_name AND id != :permission_id";
+
+		$stmt = $this->conn->prepare($sql);
+		$stmt->execute(['permission_name' => $value, 'permission_id' => $id]);
+
+		return $stmt->fetchColumn() > 0;
+	}
 }
 
 ?>

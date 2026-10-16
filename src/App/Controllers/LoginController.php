@@ -17,6 +17,13 @@ class LoginController extends Auth {
 
 		return $data;
     }
+
+    public function checkIfActive(): bool
+    {
+        $data = $this->checkUserIfActive($this->username);
+
+		return $data;
+    }
 }
 
 ?>

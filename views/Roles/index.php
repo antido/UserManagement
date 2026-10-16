@@ -1,12 +1,13 @@
 <?php 
 	include_once __DIR__ . "/../../src/App/Services/role_service.php";
-	include "../includes/header.php";
-	include "../includes/nav.php";
 
 	if (!hasPermission('index_role', $rolePermission)) {
 		header("Location: ../unauthorized.php");
 		exit();
 	}
+
+	include "../includes/header.php";
+	include "../includes/nav.php";
 ?>
 
 	<div class="container-fluid my-5">
@@ -30,7 +31,7 @@
 					
 					<div class="p-2 flex-fill">
 						<a href="create.php" 
-							class="btn-solid theme-success my-2 btn-md float-end
+							class="btn-solid theme-primary my-2 btn-md float-end
 							<?php echo (!hasPermission('create_role', $rolePermission)) ? "disabled" : ""; ?>"
 							title="Add Role"
 						>
@@ -68,14 +69,14 @@
 										<td>
 											<a
 												href="view.php?view=1&id=<?php echo urlencode($row['id']); ?>"
-												class="btn-solid btn-sm theme-secondary"
+												class="btn-solid btn-sm theme-success"
 												title="Show"
 											>
-												<i class="fas fa-eye"></i>
+												<i class="fas fa-check"></i>
 											</a>
 											<a
 												href="edit.php?update=1&id=<?php echo urlencode($row['id']); ?>"
-												class="btn-solid btn-sm theme-primary
+												class="btn-solid btn-sm theme-warning
 												<?php echo (!hasPermission('edit_role', $rolePermission)) ? "disabled" : ""; ?>"
 												title="Edit"
 											>
@@ -90,7 +91,7 @@
 												<?php echo (!hasPermission('delete_role', $rolePermission)) ? "disabled" : ""; ?>"
 												title="Delete"
 											>
-												<i class="fas fa-trash-alt"></i>
+												<i class="fas fa-times"></i>
 											</a>
 										</td>
 									</tr>

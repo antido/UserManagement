@@ -25,7 +25,7 @@
 					
 					<div class="p-2 flex-fill">
 						<a href="create.php" 
-							class="btn-solid theme-success my-2 btn-md float-end 
+							class="btn-solid theme-primary my-2 btn-md float-end 
 							<?php echo (!hasPermission('create_user', $rolePermission)) ? "disabled" : ""; ?>" 
 							title="Add User"
 						>
@@ -71,15 +71,15 @@
 										<td>
 											<a
 												href="view.php?view=1&id=<?php echo urlencode($row['id']); ?>"
-												class="btn-solid btn-sm theme-secondary"
+												class="btn-solid btn-sm theme-success"
 												title="Show"
 											>
-												<i class="fas fa-eye"></i>
+												<i class="fas fa-check"></i>
 											</a>
 											<a
 												href="edit.php?update=1&id=<?php echo urlencode($row['id']); ?>"
-												class="btn-solid btn-sm theme-primary
-												<?php echo (!hasPermission('edit_user', $rolePermission)) ? "disabled" : ""; ?>" 
+												class="btn-solid btn-sm theme-warning
+												<?php echo (!hasPermission('edit_user', $rolePermission) && $_SESSION['user_id'] !== $row['id']) ? "disabled" : ""; ?>" 
 												title="Edit"
 											>
 												<i class="fas fa-pencil-alt"></i>
@@ -93,7 +93,7 @@
 												<?php echo (!hasPermission('delete_user', $rolePermission)) ? "disabled" : ""; ?>" 
 												title="Delete"
 											>
-												<i class="fas fa-trash-alt"></i>
+												<i class="fas fa-times"></i>
 											</a>
 										</td>
 									</tr>

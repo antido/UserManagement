@@ -19,6 +19,16 @@ class Auth extends Database {
 
         return $stmt;
     }
+
+    public function checkUserIfActive(string $username): bool
+    {
+        $query = "SELECT * FROM users WHERE username = :username AND status = :status";
+        
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute(['username' => $username, 'status' => 'Active']);
+
+        return $stmt->fetchColumn() > 0;
+    }
 }
 
 ?>

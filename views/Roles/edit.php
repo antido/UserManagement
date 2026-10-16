@@ -1,12 +1,13 @@
 <?php
 	include_once __DIR__ . "/../../src/App/Services/role_service.php";
-	include "../includes/header.php";
-	include "../includes/nav.php";
 
 	if (!hasPermission('edit_role', $rolePermission)) {
 		header("Location: ../unauthorized.php");
 		exit();
 	}
+
+	include "../includes/header.php";
+	include "../includes/nav.php";
 ?>
 
 <?php include '../includes/header.php'; ?>
@@ -21,13 +22,14 @@
 					<i class="fas fa-users"></i> Edit Role
 				</h4>
 
-				<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
+				<form id="editForm" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
 					<input type="hidden" name="_method" value="PUT">
-					<input type="hidden" class="form-control" name="id" value="<?php echo $data['id'] ?? 0; ?>">
+					<input type="hidden" class="form-control" name="id" value="<?php echo htmlspecialchars(oldValue('id', $data['id'] ?? '')); ?>">
 
 					<div class="mb-3">
                         <label for="role_name" class="form-label">Name</label>
-                        <input type="text" class="form-control" id="role_name" name="role_name" value="<?php echo $data['name'] ?? ''; ?>">
+                        <input type="text" class="form-control" id="role_name" name="role_name" value="<?php echo htmlspecialchars(oldValue('role_name', $data['name'] ?? '')); ?>">
+						<small class="fg-danger"><?php echo htmlspecialchars($errors['role_name'] ?? ''); ?></small> 
                     </div>
 
 					<div class="my-5">

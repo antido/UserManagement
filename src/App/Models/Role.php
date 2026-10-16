@@ -98,6 +98,16 @@ class Role extends Database {
 			return false;
 		}
 	}
+
+	public function checkIfExist(string $value, int $id): bool
+	{
+		$sql = "SELECT COUNT(*) FROM roles WHERE name = :role_name AND id != :role_id";
+
+		$stmt = $this->conn->prepare($sql);
+		$stmt->execute(['role_name' => $value, 'role_id' => $id]);
+
+		return $stmt->fetchColumn() > 0;
+	}
 }
 
 ?>

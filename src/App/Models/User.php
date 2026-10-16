@@ -123,6 +123,18 @@ class User extends Database {
 
 		return $lastName . (!empty($otherNames) ? ', ' . implode(' ', $otherNames) : '');
 	}
+
+	public function checkIfExist(string $type, string $value, int $id): bool
+	{
+		$column = $type === 'username' ? 'username' : 'email_address';
+
+		$sql = "SELECT COUNT(*) FROM users WHERE $column = :value AND id != :user_id";
+
+		$stmt = $this->conn->prepare($sql);
+		$stmt->execute(['value' => $value, 'user_id' => $id]);
+
+		return $stmt->fetchColumn() > 0;
+	}
 }
 
 ?>

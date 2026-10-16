@@ -10,12 +10,15 @@
 
     include '../../src/App/Controllers/PermissionController.php';
     include '../../src/App/Helpers/helper.php';
+	include "../../src/App/Validators/PermissionValidation.php";
 	
 	use App\Controllers\PermissionController;
 	use App\Controllers\RolePermissionController;
+	use App\Validators\PermissionValidation;
 
 	$permission = new PermissionController;
 	$rolePermission = new RolePermissionController;
+	$validator = new PermissionValidation;
 
 	## SEARCH AND PAGINATION BLOCK ##
 	// Get search keyword
@@ -47,12 +50,17 @@
 	## CRUD FUNTIONALITY BLOCK ##
     // Add Permission
 	if (isset($_POST['add'])) {
-		$data = array(
-			'name' => trim($_POST['permission_name']) ?? ''
-		);
+		// For validation
+		$errors = $validator->validate($_POST, $permission);
 
-		if ($permission->insertData($data)) {
-			header('Location: index.php?store="Success"');
+		if (empty(array_filter($errors))) {
+			$data = array(
+				'name' => trim($_POST['permission_name']) ?? ''
+			);
+
+			if ($permission->insertData($data)) {
+				header('Location: index.php?store="Success"');
+			}
 		}
 	}
 
@@ -68,13 +76,19 @@
 		$_SERVER['REQUEST_METHOD'] === 'POST' &&
     	($_POST['_method'] ?? '') === 'PUT'
 	) {
-		$id = $_POST['id'];
-		$data = [
-			'name' => trim($_POST['permission_name']) ?? ''
-		];
+		$id = $_POST['id'] ?? 0;
 
-		if ($permission->editData($id, $data)) {
-			header('Location: index.php?edit=Success');
+		// For validation
+		$errors = $validator->validate($_POST, $permission, 'edit', $id);
+
+		if (empty(array_filter($errors))) {	
+			$data = [
+				'name' => trim($_POST['permission_name']) ?? ''
+			];
+
+			if ($permission->editData($id, $data)) {
+				header('Location: index.php?edit=Success');
+			}
 		}
 	}
 

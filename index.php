@@ -22,8 +22,8 @@
                     <i class="fas fa-user-alt"></i> Login
                 </h3>
                 
-                <span><?php echo $username_error; ?></span> 
-                <span><?php echo $password_error; ?></span> 
+                <small class="fg-danger"><?php echo $usernameError; ?></small><br/> 
+                <small class="fg-danger"><?php echo $passwordError; ?></small> 
 
                 <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
                     <div class="mb-3">
@@ -41,7 +41,7 @@
                             Sign In
                         </button>
 
-                        <button type="button" class="btn-solid theme-inverse" id="resetBtnLogin">
+                        <button type="button" class="btn-solid theme-inverse" id="resetBtn">
                             Reset
                         </button>
                     </div>

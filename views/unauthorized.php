@@ -7,7 +7,7 @@
 					You do not have permission to access this page!
 				</h1>
 
-                <a href="javascript:history.back()" class="btn-solid theme-inverse mt-5">
+                <a href="javascript:history.back()" class="btn-solid theme-secondary mt-5">
                     Go Back
                 </a>
 			</div>
