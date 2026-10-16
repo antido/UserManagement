@@ -16,7 +16,7 @@
 
 		<div class="row justify-content-center">
 			<div class="col-6 border rounded">
-				<h4 class="text-center fg-primary my-5">
+				<h4 class="text-center fg-secondary my-5">
 					<i class="fas fa-users"></i> Edit Permission
 				</h4>
 

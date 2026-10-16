@@ -8,7 +8,7 @@ use App\Models\Role;
 
 class RoleController extends Role {
 
-	public function getAllData(string $search): array
+	public function getAllData(string $search = ''): array
 	{
 		$data = $this->getData($search);
 

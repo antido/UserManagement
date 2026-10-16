@@ -66,7 +66,7 @@
 
     // Edit Permission
     if (isset($_GET['update'])) {
-		$id = $_GET['id'] ?? null;
+		$id = $_GET['id'] ?? 0;
 
 		$data = $permission->selectData($id);
 	}
@@ -94,14 +94,14 @@
 
     // View Permission
     if (isset($_GET['view'])) {
-		$id = $_GET['id'] ?? null;
+		$id = $_GET['id'] ?? 0;
 
 		$data = $permission->selectData($id);
 	}
 
     // Delete Permission
     if (isset($_GET['del'])) {
-		$id = $_GET['id'] ?? null;
+		$id = $_GET['id'] ?? 0;
 
 		if ($permission->deleteData($id)) {
 			header('Location: index.php?delete=Success');
