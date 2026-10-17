@@ -21,6 +21,13 @@ class UserRoleController extends UserRole {
 		
 		return $data;
 	}
+
+	public function checkRole(int $userId): bool
+	{
+		$data = $this->checkIsSuperAdmin($userId);
+		
+		return $data;
+	}
 }
 
 ?>
