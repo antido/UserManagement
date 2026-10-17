@@ -86,11 +86,8 @@
 											</a>
 											<a
 												href="index.php?del=1&id=<?php echo urlencode($row['id']); ?>"
-												onclick="return confirm(
-													'Are you sure you want to delete this user?'
-												);"
-												class="btn-solid btn-sm theme-danger
-												<?php echo (!hasPermission('delete_user', $rolePermission)) ? "disabled" : ""; ?>" 
+												class="btn-solid btn-sm theme-danger delete-item
+												<?php echo (!hasPermission('delete_user', $rolePermission) || checkIfSuperAdmin($row['id'], $userRole)) ? "disabled" : ""; ?>" 
 												title="Delete"
 											>
 												<i class="fas fa-times"></i>

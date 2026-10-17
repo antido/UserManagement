@@ -49,6 +49,23 @@ class UserRole extends Database {
 			return [];
 		}
 	}
+
+	public function checkIsSuperAdmin(int $userId): bool
+	{
+		$sql = "SELECT * FROM user_roles
+				INNER JOIN roles ON roles.id = user_roles.role_id
+				WHERE user_roles.user_id = :user_id
+				AND roles.name = :role_name";
+
+		try {
+			$stmt = $this->conn->prepare($sql);
+			$stmt->execute(['user_id' => $userId, 'role_name' => 'Superadmin']);
+
+			return (bool) $stmt->fetchColumn();
+		} catch (PDOException $e) {
+			return false;
+		}
+	}
 }
 
 ?>

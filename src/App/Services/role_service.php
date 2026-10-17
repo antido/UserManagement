@@ -16,11 +16,13 @@
 	use App\Controllers\RoleController;
 	use App\Controllers\RolePermissionController;
 	use App\Controllers\PermissionController;
+	use App\Controllers\UserRoleController;
 	use App\Validators\RoleValidation;
 
 	$role = new RoleController;
 	$rolePermission = new RolePermissionController;
 	$permission = new PermissionController;
+	$userRole = new UserRoleController;
 	$validator = new RoleValidation;
 
 	## SEARCH AND PAGINATION BLOCK ##
@@ -62,7 +64,8 @@
 			);
 
 			if ($role->insertData($data)) {
-				header('Location: index.php?store="Success"');
+				header("Location: index.php");
+				exit();
 			}
 		}
 	}
@@ -90,7 +93,8 @@
 			];
 
 			if ($role->editData($id, $data)) {
-				header('Location: index.php?edit=Success');
+				header("Location: index.php");
+				exit();
 			}
 		}
 		
@@ -108,18 +112,23 @@
 		$id = $_GET['id'] ?? 0;
 
 		if ($role->deleteData($id)) {
-			header('Location: index.php?delete=Success');
+			header("Location: index.php");
+			exit();
 		}
 	}
 
 	// Update Role Permissions
-	if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_role'])) {
+	if (
+		isset($_POST['add_role']) &&
+		$_SERVER['REQUEST_METHOD'] === 'POST'
+	) {
         $id = $_POST['role_id'] ?? 0;
 
         $selectedPermissions = $_POST['permissions'] ?? [];
 
         if ($rolePermission->insertData($id, $selectedPermissions)) {
-            header('Location: index.php?store="Success"');
+            header("Location: index.php");
+			exit();
         }
     }
 

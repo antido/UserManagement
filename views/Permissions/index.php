@@ -84,10 +84,7 @@
 											</a>
 											<a
 												href="index.php?del=1&id=<?php echo urlencode($row['id']); ?>"
-												onclick="return confirm(
-													'Are you sure you want to delete this permission?'
-												);"
-												class="btn-solid btn-sm theme-danger
+												class="btn-solid btn-sm theme-danger delete-item
 												<?php echo (!hasPermission('delete_permission', $rolePermission)) ? "disabled" : ""; ?>"
 												title="Delete"
 											>

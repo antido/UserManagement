@@ -59,7 +59,8 @@
 			);
 
 			if ($permission->insertData($data)) {
-				header('Location: index.php?store="Success"');
+				header("Location: index.php");
+				exit();
 			}
 		}
 	}
@@ -87,7 +88,8 @@
 			];
 
 			if ($permission->editData($id, $data)) {
-				header('Location: index.php?edit=Success');
+				header("Location: index.php");
+				exit();
 			}
 		}
 	}
@@ -104,7 +106,8 @@
 		$id = $_GET['id'] ?? 0;
 
 		if ($permission->deleteData($id)) {
-			header('Location: index.php?delete=Success');
+			header("Location: index.php");
+			exit();
 		}
 	}
 	## END CRUD FUNTIONALITY BLOCK ##

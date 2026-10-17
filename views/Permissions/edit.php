@@ -20,7 +20,7 @@
 					<i class="fas fa-users"></i> Edit Permission
 				</h4>
 
-				<form id="editForm" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
+				<form class="update-item" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
 					<input type="hidden" name="_method" value="PUT">
 					<input type="hidden" class="form-control" name="id" value="<?php echo htmlspecialchars(oldValue('id', $data['id'] ?? '')); ?>">
 

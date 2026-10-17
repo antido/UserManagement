@@ -79,8 +79,9 @@
 			}
 
 			if ($user->insertData($data)) {
-				header('Location: index.php?store="Success"');
-			}
+				header("Location: index.php");
+				exit();
+			} 
 		}
 	}
 
@@ -123,8 +124,9 @@
 			}
 
 			if ($user->editData($id, $data)) {
-				header('Location: index.php?edit=Success');
-			}
+				header("Location: index.php");
+				exit();
+			} 
 		}
 	}
 
@@ -140,19 +142,34 @@
 		$id = $_GET['id'] ?? 0;
 
 		if ($user->deleteData($id)) {
-			header('Location: index.php?delete=Success');
-		}
+			header("Location: index.php");
+			exit();
+		} 
 	}
 
 	// Assign User Role
-	if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['assign_role'])) {
-        $id = $_POST['user_id'] ?? 0;
-		$roleId = trim($_POST['role_id'] ?? 0);
+	$assign_error = '';
 
-        if ($userRole->assignData($id, $roleId)) {
-            header('Location: index.php?store="Success"');
-        }
-    }
+	if (
+		isset($_POST['assign_role']) &&
+		$_SERVER['REQUEST_METHOD'] === 'POST'
+	) {
+		$id = (int) ($_POST['user_id'] ?? 0);
+		$roleId = (int) ($_POST['role_id'] ?? 0);
+
+		if ($id > 0) {
+			$data = $user->selectData($id);
+		}
+
+		if ($roleId <= 0) {
+			$assign_error = 'Select a role from dropdown';
+		} else {
+			if ($userRole->assignData($id, $roleId)) {
+				header("Location: index.php");
+				exit();
+			}
+		}
+	}
 
 	// Get Saved User Role
 	if (isset($_GET['id'])) {

@@ -1,5 +1,6 @@
 <?php
     use App\Controllers\RolePermissionController;
+    use App\Controllers\UserRoleController;
 
     // Pagination URLs
     function paginationUrl(int $page, string $search): string
@@ -14,6 +15,12 @@
     function hasPermission(string $permission_name, RolePermissionController $rolePermission): bool
     {
         return $rolePermission->checkHasPermission($_SESSION["role_id"], $permission_name);
+    }
+
+    // Check if role is superadmin
+    function checkIfSuperAdmin(int $userId, UserRoleController $userRole): bool
+    {
+        return $userRole->checkRole($userId);
     }
 
     // Retain entered field values

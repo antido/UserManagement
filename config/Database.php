@@ -3,10 +3,10 @@
 class Database {
 
 	public PDO $conn;
-	private string $host = "";
-	private string $database = "";
-	private string $user = "";
-	private string $pass = "";
+	private string $host = "127.0.0.1;port=21000";
+	private string $database = "user_management";
+	private string $user = "root";
+	private string $pass = "antido@2024;";
 
 	public function __construct()
 	{

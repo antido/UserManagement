@@ -20,7 +20,7 @@
 					<i class="fas fa-pencil-alt"></i> Edit User
 				</h4>
 
-				<form id="editForm" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
+				<form class="update-item" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
 					<input type="hidden" name="_method" value="PUT">
 					<input type="hidden" class="form-control" name="id" value="<?php echo htmlspecialchars(oldValue('id', $data['id'] ?? '')); ?>">
 
@@ -116,40 +116,43 @@
 		</div>
 
 		<!-- Assign Role to User -->
-		<div class="row justify-content-center mt-5">
-			<div class="col-6 border rounded">
-				<h4 class="text-center fg-secondary my-5">
-					<i class="fas fa-user"></i> Assign Role
-				</h4>
+		<?php if (checkIfSuperAdmin($_SESSION['user_id'], $userRole)): ?>
+			<div class="row justify-content-center mt-5">
+				<div class="col-6 border rounded">
+					<h4 class="text-center fg-secondary my-5">
+						<i class="fas fa-user"></i> Assign Role
+					</h4>
 
-				<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
-					<input type="hidden" name="user_id" value="<?php echo htmlspecialchars($_GET['id'] ?? ''); ?>">
+					<small class="fg-danger"><?php echo htmlspecialchars($assign_error ?? ''); ?></small> 
 
-					<div class="form-field">
-						<label for="fieldSelect" class="form-label">Roles</label>
-						<select class="form-control" id="fieldSelect" name="role_id">
-							<option value="">-- Select From Options --</option>
-        
-							<?php foreach ($roles as $role): ?>
-								<option 
-									value="<?php echo $role['id']; ?>" 
-									<?php echo $role['id'] === ($savedRole['role_id'] ?? null) ? 'selected' : ''; ?>
-								>
-									<?php echo htmlspecialchars($role['name']); ?>
-								</option>
-							<?php endforeach; ?>
-						</select>
-					</div>
+					<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
+						<input type="hidden" name="user_id" value="<?php echo htmlspecialchars($_GET['id'] ?? 0); ?>">
 
-					<div class="my-5">
-						<button type="submit" class="btn-solid theme-primary" name="assign_role">
-							Update Role
-						</button>
-					</div>
-					
-				</form>
+						<div class="form-field">
+							<label for="fieldSelect" class="form-label">Roles</label>
+							<select class="form-control" id="fieldSelect" name="role_id">
+								<option value="">-- Select From Options --</option>
+			
+								<?php foreach ($roles as $role): ?>
+									<option 
+										value="<?php echo $role['id']; ?>" 
+										<?php echo $role['id'] === ($savedRole['role_id'] ?? null) ? 'selected' : ''; ?>
+									>
+										<?php echo htmlspecialchars($role['name']); ?>
+									</option>
+								<?php endforeach; ?>
+							</select>
+						</div>
+
+						<div class="my-5">
+							<button type="submit" class="btn-solid theme-primary" name="assign_role">
+								Update Role
+							</button>
+						</div>		
+					</form>
+				</div>
 			</div>
-		</div>
+		<?php endif; ?>
 	</div>
 
 <?php include "../includes/footer.php"; ?>
