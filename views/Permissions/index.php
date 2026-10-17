@@ -12,6 +12,9 @@
 
 	<div class="container-fluid my-5">
 		<div class="row justify-content-center">
+			<!-- Alert -->
+			<?php include "../includes/alert.php"; ?>
+			
 			<div class="col-md-10">
 				<div class="d-flex">
 					<div class="p-2 flex-fill">

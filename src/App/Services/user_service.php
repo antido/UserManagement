@@ -79,9 +79,13 @@
 			}
 
 			if ($user->insertData($data)) {
+				$_SESSION['success'] = 'User created successfully.';
+
 				header("Location: index.php");
 				exit();
-			} 
+			} else {
+				$_SESSION['error'] = 'Failed to create user.';
+			}
 		}
 	}
 
@@ -124,9 +128,13 @@
 			}
 
 			if ($user->editData($id, $data)) {
+				$_SESSION['success'] = 'User updated successfully.';
+
 				header("Location: index.php");
 				exit();
-			} 
+			} else {
+				$_SESSION['error'] = 'Failed to update user.';
+			}
 		}
 	}
 
@@ -142,9 +150,13 @@
 		$id = $_GET['id'] ?? 0;
 
 		if ($user->deleteData($id)) {
+			$_SESSION['success'] = 'User deleted successfully.';
+
 			header("Location: index.php");
 			exit();
-		} 
+		} else {
+			$_SESSION['error'] = 'Failed to delete user.';
+		}
 	}
 
 	// Assign User Role
@@ -154,8 +166,8 @@
 		isset($_POST['assign_role']) &&
 		$_SERVER['REQUEST_METHOD'] === 'POST'
 	) {
-		$id = (int) ($_POST['user_id'] ?? 0);
-		$roleId = (int) ($_POST['role_id'] ?? 0);
+		$id = $_POST['user_id'] ?? 0;
+		$roleId = $_POST['role_id'] ?? 0;
 
 		if ($id > 0) {
 			$data = $user->selectData($id);
@@ -165,8 +177,12 @@
 			$assign_error = 'Select a role from dropdown';
 		} else {
 			if ($userRole->assignData($id, $roleId)) {
+				$_SESSION['success'] = 'Role assigned to user successfully.';
+
 				header("Location: index.php");
 				exit();
+			} else {
+				$_SESSION['error'] = 'Failed to assign role to user.';
 			}
 		}
 	}
