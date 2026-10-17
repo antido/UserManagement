@@ -59,8 +59,12 @@
 			);
 
 			if ($permission->insertData($data)) {
+				$_SESSION['success'] = 'Permission created successfully.';
+
 				header("Location: index.php");
 				exit();
+			} else {
+				$_SESSION['error'] = 'Failed to create permission.';
 			}
 		}
 	}
@@ -88,8 +92,12 @@
 			];
 
 			if ($permission->editData($id, $data)) {
+				$_SESSION['success'] = 'Permission updated successfully.';
+
 				header("Location: index.php");
 				exit();
+			} else {
+				$_SESSION['error'] = 'Failed to update permission.';
 			}
 		}
 	}
@@ -106,8 +114,12 @@
 		$id = $_GET['id'] ?? 0;
 
 		if ($permission->deleteData($id)) {
+			$_SESSION['success'] = 'Permission deleted successfully.';
+
 			header("Location: index.php");
 			exit();
+		} else {
+			$_SESSION['error'] = 'Failed to delete permission.';
 		}
 	}
 	## END CRUD FUNTIONALITY BLOCK ##

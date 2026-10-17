@@ -64,8 +64,12 @@
 			);
 
 			if ($role->insertData($data)) {
+				$_SESSION['success'] = 'Role created successfully.';
+
 				header("Location: index.php");
 				exit();
+			} else {
+				$_SESSION['error'] = 'Failed to create role.';
 			}
 		}
 	}
@@ -93,8 +97,12 @@
 			];
 
 			if ($role->editData($id, $data)) {
+				$_SESSION['success'] = 'Role updated successfully.';
+
 				header("Location: index.php");
 				exit();
+			} else {
+				$_SESSION['error'] = 'Failed to update role.';
 			}
 		}
 		
@@ -112,8 +120,12 @@
 		$id = $_GET['id'] ?? 0;
 
 		if ($role->deleteData($id)) {
+			$_SESSION['success'] = 'Role deleted successfully.';
+
 			header("Location: index.php");
 			exit();
+		} else {
+			$_SESSION['error'] = 'Failed to delete role.';
 		}
 	}
 
@@ -127,9 +139,13 @@
         $selectedPermissions = $_POST['permissions'] ?? [];
 
         if ($rolePermission->insertData($id, $selectedPermissions)) {
+			$_SESSION['success'] = 'Updated role permissions successfully.';
+
             header("Location: index.php");
 			exit();
-        }
+        } else {
+			$_SESSION['error'] = 'Failed to update role permissions.';
+		}
     }
 
 	// Get Saved Permissions
